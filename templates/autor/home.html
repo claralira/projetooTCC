@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block style %}
+    <style>
+        .cards {
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            margin-top: 100px;
+            color: black;
+            padding:100px;
+
+        }
+    </style>
+
+    <title>Autores</title>
+{% endblock%}
+
+{% block content %}
+    
+    <a href="{% url 'criaAutor'%}" class="btn btn-primary btn-lg" >Adicionar Autor</a>
+    {% if object_list %}
+    <div class="cards">
+        {% for object in object_list %}
+            <div  class="card" style="width: 18rem;">
+                <img src="{{ object.foto.url }}" class="card-img-top" alt="Foto do Autor">
+                <div  class="card-body">
+                <h5 class="card-title">{{object.primeiro_nome}} {{ object.ultimo_nome}}</h5>
+                <a href="{% url 'updateAutor' pk=object.id%}" class="btn btn-primary">Editar</a>
+                <a class="btn btn-danger" href="{% url 'deleteAutor' pk=object.id %}">EXLUIR</a>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+
+    {% else %}
+        <p>SEM REGISTROS DE AUTOR</p>
+
+    {% endif %}
+{% endblock %}

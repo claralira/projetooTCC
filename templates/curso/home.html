@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block head %}
+    <title>Cursos</title>
+{% endblock %}
+
+{% block content %}
+
+    <div>
+        <h2>Lista de Cursos
+        {% if request.user.is_authenticated %}
+        <a href="{% url 'criaCurso'%}" class="btn btn-primary float-end"><i class="bi bi-plus-lg"></i> Adicionar Curso</a>
+        {% endif %}
+        </h2>
+        <hr>
+    </div>
+    <div class="table-responsive">
+        <table class="table table-striped" id="tabela-listar">
+            <thead>
+                <tr>
+                    <th style="color: white;" scope="col">Nome</th>
+                    <th style="color: white;" scope="col">Modalidade</th>
+                    {% if request.user.is_authenticated %}
+                    <th style="color: white;" scope="col">Ações</th>
+                    {% endif %}
+                </tr>
+            </thead>
+            <tbody>
+            {% for object in object_list %}
+                <tr>
+                    <td style="color: white;">{{ object.nome }}</td>
+                    <td style="color: white;">{{object.modalidade}}</td>
+                    {% if request.user.is_authenticated %}
+                    <td>
+                        <a href="{% url 'updateCurso' pk=object.id%}" class="btn btn-warning btn-sm"><i class="bi bi-pencil-square"></i> Editar</a>
+                        <a href="{% url 'deleteCurso' pk=object.id %}" class="btn btn-danger btn-sm"><i class="bi bi-trash"></i> Excluir</a>
+                    </td>
+                    {% endif %}
+                </tr>
+            {% empty %}
+                <tr>
+                    <td style="color:white;" colspan="4">SEM REGISTROS DE CURSO</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}
+
+{% block scripts %}
+    <script src="{% static 'js/paginacao.js' %}"></script>
+{% endblock %}
